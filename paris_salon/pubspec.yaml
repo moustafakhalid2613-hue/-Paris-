@@ -1,6 +1,7 @@
 name: paris_salon
-description: "نظام إدارة صالون Paris - حجوزات، مبيعات، مخزون، عمولات، تقارير"
+description: "A new Flutter project."
 publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
@@ -46,7 +47,7 @@ dependencies:
   mask_text_input_formatter: ^2.9.0
 
   # Printing / PDF / QR
-  pdf: ^3.10.8
+  pdf: ^3.11.1
   printing: ^5.13.3
   esc_pos_utils_plus: ^2.0.1
   esc_pos_bluetooth: ^0.4.1
@@ -74,10 +75,20 @@ dependencies:
   connectivity_plus: ^6.0.5
   package_info_plus: ^8.0.2
   device_info_plus: ^10.1.2
-  logger: ^2.4.0
+  logger: ^2.4.6
   equatable: ^2.0.5
   image_picker: ^1.1.2
   cached_network_image: ^3.4.1
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
 dependency_overrides:
   rxdart: 0.27.7
+  image: ^4.1.0
+  pdf: 3.10.8
+
+flutter:
+  uses-material-design: true
