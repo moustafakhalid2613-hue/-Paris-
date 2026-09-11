@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Flutter APK
 on:
   push:
     branches: [ "main" ]
@@ -11,17 +11,26 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
-    - name: Set up JDK 17
+
+    - name: Set up Java
       uses: actions/setup-java@v5
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew assembleDebug
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 'stable'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Build APK
+      run: flutter build apk --release
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: app-debug
-        path: '**/*.apk'
+        name: app-release
+        path: build/app/outputs/flutter-apk/app-release.apk
