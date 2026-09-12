@@ -20,13 +20,13 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
-// حل مشكلة الـ namespace للمكتبات القديمة مثل blue_thermal_printer
+// تعيين namespace للمكتبات القديمة بدون استخدام afterEvaluate
 subprojects {
-    afterEvaluate {
-        if (plugins.hasPlugin("com.android.application") || plugins.hasPlugin("com.android.library")) {
+    plugins.whenPluginAdded {
+        if (this is com.android.build.gradle.AppPlugin || this is com.android.build.gradle.LibraryPlugin) {
             val android = extensions.findByName("android") as? com.android.build.gradle.BaseExtension
             if (android != null && android.namespace == null) {
-                android.namespace = project.group.toString().ifEmpty { "com.example.${project.name}" }
+                android.namespace = "com.example.${project.name.replace("-", "_")}"
             }
         }
     }
