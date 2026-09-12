@@ -21,9 +21,11 @@ subprojects {
 }
 
 subprojects {
-    val android = project.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
-    if (android != null && android.namespace == null) {
-        android.namespace = "com.example.${project.name.replace("-", "_")}"
+    plugins.withId("com.android.library") {
+        val android = project.extensions.getByType(com.android.build.gradle.LibraryExtension::class.java)
+        if (android.namespace == null) {
+            android.namespace = "com.example.${project.name.replace("-", "_")}"
+        }
     }
 }
 
