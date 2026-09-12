@@ -28,10 +28,15 @@ jobs:
       - name: Run pub get
         run: flutter pub get
 
-      - name: Build APK
+      - name: Make Gradlew Executable
+        run: chmod +x android/gradlew
+
+      - name: Build APK via Gradle
         env:
           GRADLE_OPTS: "-Xmx3072m -XX:MaxMetaspaceSize=512m"
-        run: flutter build apk --release --extra-build-args="-Pandroid.newDsl=false"
+        run: |
+          cd android
+          ./gradlew assembleRelease -Pandroid.newDsl=false
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
