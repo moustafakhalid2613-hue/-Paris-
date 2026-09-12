@@ -15,10 +15,23 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
+
 subprojects {
     project.evaluationDependsOn(":app")
 }
 
-tasks.register<Delete>("clean") {
+// حل مشكلة الـ namespace للمكتبات القديمة مثل blue_thermal_printer
+subprojects {
+    afterEvaluate {
+        if (plugins.hasPlugin("com.android.application") || plugins.hasPlugin("com.android.library")) {
+            val android = extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+            if (android != null && android.namespace == null) {
+                android.namespace = project.group.toString().ifEmpty { "com.example.${project.name}" }
+            }
+        }
+    }
+}
+
+tasks.register("clean") {
     delete(rootProject.layout.buildDirectory)
 }
