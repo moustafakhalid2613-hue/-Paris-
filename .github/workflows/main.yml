@@ -1,34 +1,30 @@
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+name: Flutter CI
 
-val newBuildDir: Directory =
-    rootProject.layout.buildDirectory
-        .dir("../../build")
-        .get()
-rootProject.layout.buildDirectory.value(newBuildDir)
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
-}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-subprojects {
-    plugins.withId("com.android.library") {
-        val android = project.extensions.findByType(com.android.build.gradle.LibraryExtension::class.java)
-        if (android != null && android.namespace == null) {
-            android.namespace = "com.example.${project.name.replace("-", "_")}"
-        }
-    }
-}
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '12'
+          distribution: 'temurin'
 
-subprojects {
-    project.evaluationDependsOn(":app")
-}
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
 
-tasks.register("clean") {
-    delete(rootProject.layout.buildDirectory)
-}
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
