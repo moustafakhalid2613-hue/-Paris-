@@ -1,0 +1,38 @@
+name: salon_pos
+description: "نظام كاشير (POS) لصالونات التجميل - يعمل بدون إنترنت"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # قاعدة البيانات المحلية
+  sqflite: ^2.3.0
+  sqflite_common_ffi: ^2.3.0   # لدعم SQLite على ويندوز/لينكس/ماك
+  path: ^1.8.3
+  path_provider: ^2.1.1
+
+  # لإدارة الحالة (بسيط وخفيف)
+  provider: ^6.1.1
+
+  # لتنسيق التاريخ والعملة
+  intl: ^0.18.1
+
+  # لطباعة/تصدير الفواتير PDF (اختياري لاحقاً)
+  pdf: ^3.10.7
+  printing: ^5.11.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
